@@ -23,7 +23,7 @@ end
 
 require 'database_cleaner'
 class ActiveSupport::TestCase
-  ActiveRecord::Migration.check_pending!
+  ActiveRecord::Migration.check_all_pending!
   DatabaseCleaner.strategy = :truncation
   setup { DatabaseCleaner.start }
   teardown { DatabaseCleaner.clean }
