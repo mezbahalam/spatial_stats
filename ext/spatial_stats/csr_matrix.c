@@ -22,9 +22,17 @@ size_t csr_matrix_memsize(const void *ptr)
     return sizeof(*csr);
 }
 
+const rb_data_type_t csr_matrix_type = {
+    "SpatialStats::Weights::CSRMatrix",
+    {NULL, csr_matrix_free, csr_matrix_memsize},
+    0,
+    0,
+    RUBY_TYPED_FREE_IMMEDIATELY
+};
+
 VALUE csr_matrix_alloc(VALUE self)
 {
-    csr_matrix *csr = malloc(sizeof(csr_matrix));
+    csr_matrix *csr = ALLOC(csr_matrix);
     return TypedData_Wrap_Struct(self, &csr_matrix_type, csr);
 }
 
@@ -64,7 +72,7 @@ void mat_to_sparse(csr_matrix *csr, VALUE data, VALUE keys, VALUE num_rows)
         // if it is, add array len to nnz
         row = rb_hash_aref(data, key);
         Check_Type(row, T_ARRAY);
-        nnz += rb_array_len(row);
+        nnz += (int)RARRAY_LEN(row); // Explicit cast to int
     }
 
     values = malloc(sizeof(double) * nnz);
@@ -82,7 +90,7 @@ void mat_to_sparse(csr_matrix *csr, VALUE data, VALUE keys, VALUE num_rows)
 
         key = rb_ary_entry(keys, i);
         row = rb_hash_aref(data, key);
-        m = rb_array_len(row);
+        m = (int)RARRAY_LEN(row); // Explicit cast to int
 
         for (j = 0; j < m; j++)
         {
@@ -140,7 +148,7 @@ VALUE csr_matrix_initialize(VALUE self, VALUE data, VALUE num_rows)
     keys = rb_funcall(data, rb_intern("keys"), 0);
 
     // check dimensions are correct
-    if (NUM2INT(num_rows) != rb_array_len(keys))
+    if (NUM2INT(num_rows) != (int)RARRAY_LEN(keys)) // Explicit cast to int
     {
         rb_raise(rb_eArgError, "n_rows != keys.size, check your dimensions");
     }
@@ -249,7 +257,7 @@ VALUE csr_matrix_mulvec(VALUE self, VALUE vec)
 
     TypedData_Get_Struct(self, csr_matrix, &csr_matrix_type, csr);
 
-    if (rb_array_len(vec) != csr->n)
+    if (RARRAY_LEN(vec) != csr->n)
     {
         rb_raise(rb_eArgError, "Dimension Mismatch CSRMatrix.n != vec.size");
     }
@@ -294,7 +302,7 @@ VALUE csr_matrix_dot_row(VALUE self, VALUE vec, VALUE row)
 
     TypedData_Get_Struct(self, csr_matrix, &csr_matrix_type, csr);
 
-    if (rb_array_len(vec) != csr->n)
+    if (RARRAY_LEN(vec) != csr->n)
     {
         rb_raise(rb_eArgError, "Dimension Mismatch CSRMatrix.n != vec.size");
     }

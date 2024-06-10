@@ -14,13 +14,7 @@ typedef struct csr_matrix
 void csr_matrix_free(void *mat);
 size_t csr_matrix_memsize(const void *ptr);
 
-// ruby VALUE for csr_matrix
-static const rb_data_type_t csr_matrix_type = {
-    "SpatialStats::Weights::CSRMatrix",
-    {NULL, csr_matrix_free, csr_matrix_memsize},
-    0,
-    0,
-    RUBY_TYPED_FREE_IMMEDIATELY};
+extern const rb_data_type_t csr_matrix_type;
 
 void mat_to_sparse(csr_matrix *csr, VALUE data, VALUE keys, VALUE num_rows);
 VALUE csr_matrix_alloc(VALUE self);

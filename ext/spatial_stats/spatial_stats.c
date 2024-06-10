@@ -15,7 +15,7 @@ void Init_spatial_stats()
 {
     VALUE spatial_stats_mod = rb_define_module("SpatialStats");
     VALUE weights_mod = rb_define_module_under(spatial_stats_mod, "Weights");
-    VALUE csr_matrix_class = rb_define_class_under(weights_mod, "CSRMatrix", rb_cData);
+    VALUE csr_matrix_class = rb_define_class_under(weights_mod, "CSRMatrix", rb_cObject);
 
     rb_define_alloc_func(csr_matrix_class, csr_matrix_alloc);
     rb_define_method(csr_matrix_class, "initialize", csr_matrix_initialize, 2);
