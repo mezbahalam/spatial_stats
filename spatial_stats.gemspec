@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
                      'inside your rails app. Supports contiguious and distance-based'\
                      ' calculations.'
   spec.license     = 'BSD-3-Clause'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 3.1.0')
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = spec.homepage
@@ -41,8 +41,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'numo-narray', '~>0.9.1'
   spec.add_dependency 'rails', '>= 6.0.0'
-  spec.add_development_dependency 'activerecord-postgis-adapter', '~> 6.0.0'
-  spec.add_development_dependency 'database_cleaner', '~> 1.8.3'
+  spec.add_development_dependency 'activerecord-postgis-adapter', '>= 6.0.0'
+  spec.add_development_dependency 'database_cleaner', '~> 2.0.2'
   spec.add_development_dependency 'pg', '~> 1.0'
   spec.add_development_dependency 'rake-compiler', '~>1.1.0'
   spec.add_development_dependency 'ruby-prof', '~> 1.3.1'

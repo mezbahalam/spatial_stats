@@ -14,3 +14,4 @@ test/dummy/tmp/
 test/dummy/test
 tmp/
 Gemfile.lock
+.ruby-version
